@@ -1,10 +1,16 @@
-﻿namespace Users.Application.Common
+﻿using System.Text.Json.Serialization;
+
+namespace Users.Application.Common
 {
     public class Result
     {
+        [JsonIgnore]
         public bool IsSuccess { get; }
+        [JsonIgnore]
         public bool IsFailure => !IsSuccess;
-        public string Error { get; }
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? Error { get; } = null;
 
         protected Result(bool isSuccess, string error)
         {
@@ -15,9 +21,11 @@
                 throw new InvalidOperationException("A failed result must have an error.");
 
             IsSuccess = isSuccess;
-            Error = error;
+
+            Error = string.IsNullOrWhiteSpace(error) ? null : error;
         }
         public static Result<T> Success<T>(T value) => new(value, true, string.Empty);
+        public static Result<T> Failure<T>(string error) => new(default, false, error);
 
         public static Result Success() => new(true, string.Empty);
         public static Result Failure(string error) => new(false, error);
@@ -29,8 +37,8 @@
         {
             Value = value;
         }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public T? Value { get; }
-        public static Result<T> Failure<T>(string error) => new(default, false, error);
 
 
         public static implicit operator Result<T>(T value) => Success(value);

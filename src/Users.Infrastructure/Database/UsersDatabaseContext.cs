@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using Users.Domain.Entities;
 
 namespace Users.Infrastructure.Database
 {
@@ -14,5 +15,7 @@ namespace Users.Infrastructure.Database
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             base.OnModelCreating(modelBuilder);
         }
+
+        public DbSet<User> Users { get; set; }
     }
 }

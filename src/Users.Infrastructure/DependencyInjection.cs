@@ -12,7 +12,7 @@ namespace Users.Infrastructure
             services.AddDbContext<UsersDatabaseContext>(options =>
                        {
                            var connectionString = configuration.GetConnectionString("DefaultConnection");
-                           options.UseNpgsql(connectionString);
+                           options.UseSqlServer(connectionString);
                        });
 
             return services;

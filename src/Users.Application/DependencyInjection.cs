@@ -9,6 +9,9 @@ namespace Users.Application
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             services.TryAddScoped<ICreateUserUseCase, CreateUserUseCase>();
+            services.TryAddScoped<IUpdateUserEmailUseCase, UpdateUserEmailUseCase>();
+            services.TryAddScoped<IGetUserByIdUseCase, GetUserByIdUseCase>();
+            services.TryAddScoped<IRemoveUserByIdUseCase, RemoveUserByIdUseCase>();
             return services;
         }
     }

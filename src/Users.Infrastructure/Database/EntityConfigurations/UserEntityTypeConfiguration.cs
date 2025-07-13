@@ -8,11 +8,14 @@ namespace Users.Infrastructure.Database.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
+            builder.ToTable("Users");
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Email)
                 .IsRequired()
                 .HasMaxLength(128);
+
+            builder.HasIndex(x => x.Email).IsUnique();
         }
     }
 }

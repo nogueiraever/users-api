@@ -1,5 +1,6 @@
 using Users.Infrastructure;
 using Users.Application;
+using Users.Api.Middlewares;
 
 namespace Users.Api
 {
@@ -10,7 +11,7 @@ namespace Users.Api
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddControllers();
-            builder.Services.AddOpenApi();
+            builder.Services.AddSwaggerGen();
             
             builder.Services
                 .AddInfrastructure(builder.Configuration)
@@ -21,13 +22,15 @@ namespace Users.Api
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
-                app.MapOpenApi();
+                app.UseSwagger();
+                app.UseSwaggerUI();
             }
 
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
 
+            app.UseMiddleware<GlobalExceptionHandlerMiddeware>();
 
             app.MapControllers();
 
